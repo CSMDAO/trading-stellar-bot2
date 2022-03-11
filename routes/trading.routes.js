@@ -50,18 +50,32 @@ router.post("/buy/:id", async (req, res) => {
 
 // Sell offer route
 router.post("/sell", async (req, res) => {
-  //   const username = req.body.username;
   const publickey = req.body.publickey;
   const sellingasset = req.body.sellingasset;
   const buyingasset = req.body.buyingasset;
   const amount = req.body.amount;
 
   await TradingInstance.sellOffer(
-    // username,
     publickey,
     sellingasset,
     buyingasset,
     amount,
+    (code, message) => response(code, message, res)
+  );
+});
+
+// Cancel sell offer route
+router.post("/sell/:id", async (req, res) => {
+  const publickey = req.body.publickey;
+  const sellingasset = req.body.sellingasset;
+  const buyingasset = req.body.buyingasset;
+  const offerId = req.params.id;
+
+  await TradingInstance.cancelSellOffer(
+    publickey,
+    sellingasset,
+    buyingasset,
+    offerId,
     (code, message) => response(code, message, res)
   );
 });
