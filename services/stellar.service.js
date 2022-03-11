@@ -1,7 +1,9 @@
-const pool = require("../config");
+const Database = require("../config");
 
 const StellarSdk = require("stellar-sdk");
-const bcrypt = require("bcrypt");
+
+const db = new Database();
+db.connect();
 
 class StellarService {
   constructor() {
@@ -21,12 +23,13 @@ class StellarService {
    * @param {function} cb code & message | object
    */
   async createAndSave(username, pubKey, privateKey, cb) {
-    let hashedPrivateKey = bcrypt.hashSync(privateKey, 12);
     try {
-      const newUser = await pool.query(
-        "INSERT INTO users (username, publickey, privatekey) VALUES ($1, $2, $3)",
-        [username, pubKey, hashedPrivateKey]
-      );
+      const newUser = await db.insert({
+        username: username,
+        publickey: pubKey,
+        privatekey: privateKey,
+        offers: [],
+      });
       cb(201, "User added!");
     } catch (error) {
       console.log(error);
@@ -45,11 +48,8 @@ class StellarService {
    */
   async getBalance(username, cb) {
     try {
-      const pubKey = await pool.query(
-        "SELECT publickey FROM users WHERE username = $1",
-        [username]
-      );
-      const account = await this.horizon.loadAccount(pubKey.rows[0].publickey);
+      const pubKey = await db.find({ username: username });
+      const account = await this.horizon.loadAccount(pubKey.publickey);
       cb(200, { balance: account.balances });
     } catch (error) {
       console.log(error);

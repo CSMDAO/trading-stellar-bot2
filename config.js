@@ -1,11 +1,49 @@
 // DB Connection
 require("dotenv").config();
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-});
+const { MongoClient } = require("mongodb");
 
-module.exports = pool;
+class Database {
+  constructor() {
+    this.uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/${process.env.DB_DATABASE}?retryWrites=true&w=majority`;
+    this.db = null;
+  }
+
+  async connect() {
+    this.client = await MongoClient.connect(this.uri, {
+      useNewUrlParser: true,
+    }).catch((err) => {
+      console.log(err);
+    });
+    this.db = this.client.db("api");
+    return this.db;
+  }
+
+  async insert(data) {
+    const collection = this.db.collection("users");
+    try {
+      await collection.insertOne(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async update(query, newData) {
+    const collection = this.db.collection("users");
+    try {
+      await collection.updateOne(query, newData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async find(query, projection) {
+    const collection = this.db.collection("users");
+    try {
+      return await collection.findOne(query, projection);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+module.exports = Database;

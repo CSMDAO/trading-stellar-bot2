@@ -17,15 +17,14 @@ router.get("/pairprice", async (req, res) => {
 
 // Buy offer route
 router.post("/buy", async (req, res) => {
-  const username = req.body.username;
-  const privatekey = req.body.privatekey;
+  //   const username = req.body.username;
+  const publickey = req.body.publickey;
   const sellingasset = req.body.sellingasset;
   const buyingasset = req.body.buyingasset;
   const amount = req.body.amount;
 
   await TradingInstance.buyOffer(
-    username,
-    privatekey,
+    publickey,
     sellingasset,
     buyingasset,
     amount,
@@ -33,17 +32,33 @@ router.post("/buy", async (req, res) => {
   );
 });
 
+// Cancel buy offer route
+router.post("/buy/:id", async (req, res) => {
+  const publickey = req.body.publickey;
+  const sellingasset = req.body.sellingasset;
+  const buyingasset = req.body.buyingasset;
+  const offerId = req.params.id;
+
+  await TradingInstance.cancelBuyOffer(
+    publickey,
+    sellingasset,
+    buyingasset,
+    offerId,
+    (code, message) => response(code, message, res)
+  );
+});
+
 // Sell offer route
 router.post("/sell", async (req, res) => {
-  const username = req.body.username;
-  const privatekey = req.body.privatekey;
+  //   const username = req.body.username;
+  const publickey = req.body.publickey;
   const sellingasset = req.body.sellingasset;
   const buyingasset = req.body.buyingasset;
   const amount = req.body.amount;
 
   await TradingInstance.sellOffer(
-    username,
-    privatekey,
+    // username,
+    publickey,
     sellingasset,
     buyingasset,
     amount,
