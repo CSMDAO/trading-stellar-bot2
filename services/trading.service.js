@@ -589,7 +589,6 @@ class TradingService {
       }
     } catch (error) {
       console.log(error);
-      // cb(500, error.message);
     }
   }
 

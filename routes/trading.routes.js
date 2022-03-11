@@ -17,7 +17,6 @@ router.get("/pairprice", async (req, res) => {
 
 // Buy offer route
 router.post("/buy", async (req, res) => {
-  //   const username = req.body.username;
   const publickey = req.body.publickey;
   const sellingasset = req.body.sellingasset;
   const buyingasset = req.body.buyingasset;
