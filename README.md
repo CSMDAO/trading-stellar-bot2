@@ -55,7 +55,7 @@ Retrieves account balance.
   * None
 
 - Data Params:
-  * `username=[string]`
+  * `publickey=[string]`
 
 - Success Response:
   * Code: 200
@@ -67,7 +67,7 @@ Retrieves account balance.
 
 - Sample Call:
   ```
-  https://(linktoapi)/balance?username=helloworld
+  https://(linktoapi)/balance?publickey=GA67XX2JAA4OCEXLUIRCWNVGX2M7IH7GJQKSSEANI5APNCLRDN53LVLD
   
   // => 
   {
@@ -123,8 +123,7 @@ Sends buy offer to stellar network
   * None
 
 - Data Params:
-  * `username=[string]`
-  * `privatekey=[string]`
+  * `publickey=[string]`
   * `sellingasset=[string]`
   * `buyingasset=[string]`
   * `amount=[string]`
@@ -144,13 +143,54 @@ Sends buy offer to stellar network
 
 - Sample Call:
   ```
-  https://(linktoapi)/buy?username=helloworld&privatekey=SCECAXI2H5TUCGCAWHJGFLMJOGQFOOHUZVZYFCPRIVATEKEYGOESHERE&sellingasset=USDC&buyingasset=BNB&amount=0.0001
+  https://(linktoapi)/buy?publickey=GBANPGJBMNQWHYGE4JD765JDJZBDHHP2T4BFWTNC4UL4DM3FU3UIQACU&sellingasset=USDC&buyingasset=BNB&amount=0.0001
   
   // => 
   {
     success: true, message: Buy Offer successfully sent!
   }
   ```
+  
+### Cancel Buy Offer
+Cancels buy offer
+
+- URL:
+  * `/buy`
+
+- Method:
+  * `POST`
+
+- URL Params:
+  * `id=[string]`
+
+- Data Params:
+  * `publickey=[string]`
+  * `sellingasset=[string]`
+  * `buyingasset=[string]`
+
+- Success Response:
+  * Code: 200
+  * Content: `{ success: true, message: Successfully canceled Buy Offer! }`
+
+- Error Response:
+  * Code: 500
+  * Content: `{ success: false, message: Error sending transaction, check console for more details }`
+
+  OR  
+
+  * Code: 500
+  * Content: `{ success: false, message: 'example error message blla' }`
+
+- Sample Call:
+  ```
+  https://(linktoapi)/buy/950367139?publickey=GBANPGJBMNQWHYGE4JD765JDJZBDHHP2T4BFWTNC4UL4DM3FU3UIQACU&sellingasset=USDC&buyingasset=BNB
+  
+  // => 
+  {
+    success: true, message: Successfully canceled Buy Offer!
+  }
+  ```
+
 
 ### Sell Offer
 Sends sell offer to stellar network
@@ -165,8 +205,7 @@ Sends sell offer to stellar network
   * None
 
 - Data Params:
-  * `username=[string]`
-  * `privatekey=[string]`
+  * `publickey=[string]`
   * `sellingasset=[string]`
   * `buyingasset=[string]`
   * `amount=[string]`
@@ -186,10 +225,50 @@ Sends sell offer to stellar network
 
 - Sample Call:
   ```
-  https://(linktoapi)/sell?username=helloworld&privatekey=SCECAXI2H5TUCGCAWHJGFLMJOGQFOOHUZVZYFCPRIVATEKEYGOESHERE&sellingasset=BNB&buyingasset=USDC&amount=0.0001
+  https://(linktoapi)/sell?publickey=GBANPGJBMNQWHYGE4JD765JDJZBDHHP2T4BFWTNC4UL4DM3FU3UIQACU&sellingasset=BNB&buyingasset=USDC&amount=0.0001
   
   // => 
   {
     success: true, message: Sell Offer successfully sent!
+  }
+  ```
+  
+### Cancel Sell Offer
+Cancels sell offer
+
+- URL:
+  * `/sell`
+
+- Method:
+  * `POST`
+
+- URL Params:
+  * `id=[string]`
+
+- Data Params:
+  * `publickey=[string]`
+  * `sellingasset=[string]`
+  * `buyingasset=[string]`
+
+- Success Response:
+  * Code: 200
+  * Content: `{ success: true, message: Successfully canceled Sell Offer! }`
+
+- Error Response:
+  * Code: 500
+  * Content: `{ success: false, message: Error sending transaction, check console for more details }`
+
+  OR  
+
+  * Code: 500
+  * Content: `{ success: false, message: 'example error message blla' }`
+
+- Sample Call:
+  ```
+  https://(linktoapi)/sell/950367139?publickey=GBANPGJBMNQWHYGE4JD765JDJZBDHHP2T4BFWTNC4UL4DM3FU3UIQACU&sellingasset=BNB&buyingasset=USDC
+  
+  // => 
+  {
+    success: true, message: Successfully canceled Sell Offer!
   }
   ```
