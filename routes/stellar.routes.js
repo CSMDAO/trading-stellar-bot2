@@ -25,9 +25,9 @@ router.post("/create", async (req, res) => {
 
 // getBalance route
 router.get("/balance", async (req, res) => {
-  const username = req.body.username;
+  const publickey = req.body.publickey;
 
-  await StellarInstance.getBalance(username, (code, message) =>
+  await StellarInstance.getBalance(publickey, (code, message) =>
     response(code, message, res)
   );
 });

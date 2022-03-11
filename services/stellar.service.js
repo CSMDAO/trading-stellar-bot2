@@ -46,9 +46,9 @@ class StellarService {
    * @param {string} username Username
    * @param {function} cb code & message | object
    */
-  async getBalance(username, cb) {
+  async getBalance(publickey, cb) {
     try {
-      const pubKey = await db.find({ username: username });
+      const pubKey = await db.find({ publickey: publickey });
       const account = await this.horizon.loadAccount(pubKey.publickey);
       cb(200, { balance: account.balances });
     } catch (error) {
